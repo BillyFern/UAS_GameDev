@@ -10,7 +10,7 @@ public class Follow : MonoBehaviour
         // Mendapatkan offset antara target dan camera
         offset = transform.position - target.position;
     }
-
+    
     private void LateUpdate()
     {
         // Mendapatkan posisi untuk camera
