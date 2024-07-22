@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class FenceController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class FenceController : MonoBehaviour
     public AudioClip OpenDoor;
     public float doorSpeed = 3.0f; // Speed at which the door will move down
     public float doorLowerLimit = -8.0f; // Lower limit for the door position
+    public TextMeshProUGUI objective2, objective3;
 
     void Awake()
     {
@@ -82,6 +84,8 @@ public class FenceController : MonoBehaviour
         audioGate.clip = OpenDoor;
         audioGate.Play();
         StartCoroutine(LowerDoor()); // Start the coroutine to lower the door
+        objective2.enabled = true;
+        objective3.enabled = true;
     }
 
     void resetChecker()
