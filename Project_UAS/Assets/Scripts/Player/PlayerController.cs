@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     Rigidbody playerRigidbody;
 
+    /*[SerializeField]
+    private LayerMask WhatIsGround;*/
     private void Awake()
     {
         //Mendapatkan komponen Animator
@@ -58,4 +60,17 @@ public class PlayerController : MonoBehaviour
         bool running = h != 0f || v != 0f;
         anim.SetBool("isRunning", running);
     }
+   /* private void Update()
+    {
+        SurfaceAllignment();
+    }
+    private void SurfaceAllignment()
+    {
+        Ray ray = new Ray(transform.position, -transform.up);
+        RaycastHit info = new RaycastHit();
+        if (Physics.Raycast(ray, out info, WhatIsGround))
+        {
+            transform.rotation = Quaternion.FromToRotation(Vector3.up, info.normal);
+        }
+    }*/
 }
