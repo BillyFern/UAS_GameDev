@@ -18,46 +18,81 @@ public class FenceController : MonoBehaviour
 
     public void mushroomUpdate(string color)
     {
-        switch (color)
+        if (IsCorrectNextColor(color))
         {
-            case "red":
-                red += checker;
-                break;
-            case "blue":
-                blue += checker;
-                break;
-            case "purple":
-                purple += checker;
-                break;
-            case "yellow":
-                yellow += checker;
-                break;
+            switch (color)
+            {
+                case "red":
+                    red += 1;
+                    break;
+                case "blue":
+                    blue += 1;
+                    break;
+                case "purple":
+                    purple += 1;
+                    break;
+                case "yellow":
+                    yellow += 1;
+                    break;
+            }
+            checker += 1;
         }
-        checker += 1;
+        else
+        {
+            resetChecker();
+        }
 
         if (checker == 5)
         {
+            checkSolution();
+        }
+    }
+
+    bool IsCorrectNextColor(string color)
+    {
+        switch (checker)
+        {
+            case 1:
+                return color == "red";
+            case 2:
+                return color == "blue";
+            case 3:
+                return color == "purple";
+            case 4:
+                return color == "yellow";
+            default:
+                return false;
+        }
+    }
+
+    void checkSolution()
+    {
+        if (red == 1 && blue == 1 && purple == 1 && yellow == 1)
+        {
             openDoor();
+        }
+        else
+        {
+            resetChecker();
         }
     }
 
     void openDoor()
     {
-        if (red == 1 && blue == 2 && purple == 3 && yellow == 4)
-        {
-            audioGate.clip = OpenDoor;
-            audioGate.Play();
-            StartCoroutine(LowerDoor()); // Start the coroutine to lower the door
-        }
-        else
-        {
-            audioGate.Play();
-            red = 0;
-            blue = 0;
-            yellow = 0;
-            purple = 0;
-            checker = 1;
-        }
+        audioGate.clip = OpenDoor;
+        audioGate.Play();
+        StartCoroutine(LowerDoor()); // Start the coroutine to lower the door
+    }
+
+    void resetChecker()
+    {
+        red = 0;
+        blue = 0;
+        yellow = 0;
+        purple = 0;
+        checker = 1;
+        // Optionally, you can play a "wrong" sound or show feedback to the player here
+        audioGate.Play(); // Assuming you have a sound to play for the wrong sequence
     }
 
     IEnumerator LowerDoor()
