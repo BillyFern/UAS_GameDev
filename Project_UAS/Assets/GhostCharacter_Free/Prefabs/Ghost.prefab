@@ -145,12 +145,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57bdc949fce340f8968c5bc86276031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream:Project_UAS/Assets/GhostCharacter_Free/Prefabs/Ghost.prefab
   MeshR:
   - {fileID: 839705036205447455}
   Speed: 4
 --- !u!137 &839705036205447455 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 514471462265150744, guid: 46f311046d2104da8b56be3d0a49a119,
+=======
+  speed: 5
+  rotationSpeed: 10
+--- !u!114 &3927425858281263249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19588385245968726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b635dd79a62a249b5c2c2d43447b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenAttacks: 0.5
+  attackDamage: 25
+  attackSoundPlayerPrefab: {fileID: 8491445697495330870, guid: 577b01f640dbef649bdb4ff96c54559a,
+>>>>>>> Stashed changes:Project_UAS/Assets/Prefabs/Ghost.prefab
     type: 3}
   m_PrefabInstance: {fileID: 902125486744929287}
   m_PrefabAsset: {fileID: 0}
