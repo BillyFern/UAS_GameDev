@@ -1,39 +1,32 @@
 using UnityEngine;
-using System.Collections;
+
 public class EnemyAttack : MonoBehaviour
 {
     public float timeBetweenAttacks = 0.5f;
     public int attackDamage = 25;
-    //Animator anim;
-    GameObject player;
-    PlayerHealth playerHealth;
-    //EnemyHealth enemyHealth;
-    bool playerInRange;
-    float timer;
+    public GameObject attackSoundPlayerPrefab; // Prefab with AudioSource for playing sound
+
+    private GameObject player;
+    private PlayerHealth playerHealth;
+    private bool playerInRange;
+    private float timer;
+
     void Awake()
     {
-        //Mencari game object dengan tag "Player"
         player = GameObject.FindGameObjectWithTag("Player");
-        //mendapatkan komponen player health
         playerHealth = player.GetComponent<PlayerHealth>();
-        //mendapatkan komponen Animator
-        //anim = GetComponent<Animator>();
-        //enemyHealth = GetComponent<EnemyHealth>();
     }
 
-    //Callback jika ada suatu object masuk kedalam trigger
     void OnTriggerEnter(Collider other)
     {
-        //Set player in range
         if (other.gameObject == player)
         {
             playerInRange = true;
         }
     }
-    //Callback jika ada object yang keluar dari trigger
+
     void OnTriggerExit(Collider other)
     {
-        //Set player not in range
         if (other.gameObject == player)
         {
             playerInRange = false;
@@ -43,22 +36,31 @@ public class EnemyAttack : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= timeBetweenAttacks && playerInRange/* && enemyHealth.currentHealth > 0*/)
+
+        if (timer >= timeBetweenAttacks && playerInRange)
         {
             Attack();
         }
-        //mentrigger animasi PlayerDead jika darah player kurang dari samadengan 0
-        
     }
 
     void Attack()
     {
-        //Reset timer
         timer = 0f;
-        //Taking Damage
+
         if (playerHealth.currentHealth > 0)
         {
             playerHealth.TakeDamage(attackDamage);
+
+            // Instantiate the sound player and play the attack sound
+            GameObject soundPlayer = Instantiate(attackSoundPlayerPrefab, transform.position, Quaternion.identity);
+            AudioSource audioSource = soundPlayer.GetComponent<AudioSource>();
+            audioSource.Play();
+
+            // Destroy the sound player after the clip length
+            Destroy(soundPlayer, audioSource.clip.length);
+
+            // Destroy the enemy object immediately
+            Destroy(gameObject);
         }
     }
 }

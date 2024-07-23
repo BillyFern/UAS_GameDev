@@ -10,9 +10,11 @@ public class PlayerHealth : MonoBehaviour
     public Slider healthSlider;
     public Image damageImage;
     public AudioClip deathClip;
+    public AudioClip hurtClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
     public GameOverScreen gameOverScreen;
+    bool isDead = false;
 
     public float healthDecreaseInterval = 5f; // Interval in seconds
     public int healthDecreaseAmount = 10; // Amount of health to decrease every interval
@@ -38,6 +40,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
+
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
@@ -60,6 +64,11 @@ public class PlayerHealth : MonoBehaviour
         }
         //Set damage to false
         damaged = false;
+        if (currentHealth <= 0 && isDead == false)
+        {
+            Death();
+            isDead = true;
+        }
     }
 
     //fungsi untuk mendapatkan damage
@@ -71,6 +80,8 @@ public class PlayerHealth : MonoBehaviour
         //Merubah tampilan dari health slider
         healthSlider.value = currentHealth;
         //Memainkan suara ketika terkena damage
+        playerAudio.clip = hurtClip;
+        playerAudio.volume = 1f;
         playerAudio.Play();
         //Memanggil method Death() jika darahnya kurang dari sama dengan 10 dan belum mati
         if (currentHealth <= 0)
@@ -83,9 +94,21 @@ public class PlayerHealth : MonoBehaviour
     {
         //Memainkan suara ketika mati
         playerAudio.clip = deathClip;
+        playerAudio.volume = 1f;
         playerAudio.Play();
         //mematikan script player movement
         playerMovement.enabled = false;
         gameOverScreen.Setup();
+
+        StartCoroutine(HandleDeath());
+    }
+
+    private IEnumerator HandleDeath()
+    {
+        // Wait for the specified delay
+        yield return new WaitForSeconds(2f);
+
+        // Load the desired scene
+        SceneManager.LoadScene("GameOver"); // Replace "YourSceneName" with the actual name of the scene you want to load
     }
 }
