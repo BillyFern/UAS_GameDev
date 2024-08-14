@@ -23,6 +23,7 @@ public class PlayerHealth : MonoBehaviour
     PlayerController playerMovement;
     //PlayerShooting playerShooting;
     bool damaged;
+    bool isDead = false;
     float timer;
 
     void Awake()
@@ -38,6 +39,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
@@ -60,6 +62,12 @@ public class PlayerHealth : MonoBehaviour
         }
         //Set damage to false
         damaged = false;
+
+        if (currentHealth <= 0 && !isDead)
+        {
+            Death();
+            isDead = true;
+        }
     }
 
     //fungsi untuk mendapatkan damage
@@ -71,6 +79,7 @@ public class PlayerHealth : MonoBehaviour
         //Merubah tampilan dari health slider
         healthSlider.value = currentHealth;
         //Memainkan suara ketika terkena damage
+        playerAudio.volume = 1f;
         playerAudio.Play();
         //Memanggil method Death() jika darahnya kurang dari sama dengan 10 dan belum mati
         if (currentHealth <= 0)
@@ -83,9 +92,21 @@ public class PlayerHealth : MonoBehaviour
     {
         //Memainkan suara ketika mati
         playerAudio.clip = deathClip;
+        playerAudio.volume = 1f;
         playerAudio.Play();
         //mematikan script player movement
         playerMovement.enabled = false;
         gameOverScreen.Setup();
+
+        StartCoroutine(HandleDeath());
+    }
+
+    private IEnumerator HandleDeath()
+    {
+        // Wait for the specified delay
+        yield return new WaitForSeconds(2f);
+
+        // Load the desired scene
+        SceneManager.LoadScene("GameOver"); // Replace "YourSceneName" with the actual name of the scene you want to load
     }
 }

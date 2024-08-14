@@ -30,15 +30,15 @@ public class EnemyManager : MonoBehaviour
     {
         if (playerHealth.currentHealth <= 250f)
         {
-            spawnTime = 5f;
+            spawnTime = 8f;
         }
         else if (playerHealth.currentHealth <= 500f)
         {
-            spawnTime = 7f;
+            spawnTime = 11f;
         }
         else
         {
-            spawnTime = 12f;
+            spawnTime = 16f;
         }
     }
 }

@@ -20,7 +20,7 @@ public class LightController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        intensity = playerHealth.currentHealth / 25;
+        intensity = playerHealth.currentHealth / 20;
         lightSource.intensity = intensity;
     }
 }
